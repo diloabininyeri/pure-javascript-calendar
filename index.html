@@ -1,0 +1,101 @@
+
+
+
+
+<styles>
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+body {
+	background: #eee;
+}
+
+.calendar {
+	margin-top: 40px;
+	box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	padding: 0.5em;
+	text-align: center;
+	width: 100%;
+	height: auto;
+	word-break: break-all;
+}
+
+.element {
+	text-align: center;
+	background: #e83c34;
+	color: #fff;
+	display: inline-block;
+	width: calc(20% - 0.1em);
+	margin: 0.09em;
+	overflow: hidden;
+	height: 65px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.today {
+	background: #3f51b5;
+}
+
+.today:after {
+	padding: 1em;
+	content: "bugün";
+	left: 0;
+	top: 0;
+}
+
+.calendar-title {
+	background: #f44336;
+	height: 50px;
+	text-align: #f00;
+	color: #fff;
+	top: 0;
+	left: 0;
+	text-indent: 2em;
+	line-height: 50px;
+	box-shadow: 0 0 15px rgba(0,0,0,0.5);
+	position: fixed;
+	width: 100%;
+}
+</styles>
+
+
+<script>
+
+
+const tarih = new Date();
+const suan = new Date();
+
+let getDayName = i => ["pazar", "pazartesi", "salı", "çarşamba", "perşembe", "cuma", "cumartesi"][i];
+let getMonthName = i => ["ocak", "şubat", "mart", "nisan", "mayıs", "haziran", "temmuz", "agustos", "eylul", "ekim", "kasım", "aralık"][i];
+let dayCount = () => new Date(suan.getFullYear(), suan.getMonth() + 1, 0).getDate();
+let calendar = document.querySelector(".calendar");
+
+document.querySelector(".calendar-title").innerHTML = getMonthName(tarih.getMonth()) + "  " + tarih.getFullYear();
+for (let i = 1; i <= dayCount(); i++) {
+	tarih.setDate(i);
+	let createDiv = document.createElement("div");
+	if (suan.getDate() === tarih.getDate())
+		createDiv.className = "today element";
+	else
+		createDiv.className = "element";
+	createDiv.dataset.day = getDayName(tarih.getDay());
+	createDiv.dataset.date = tarih.getDate();
+	createDiv.dataset.month = getMonthName(tarih.getMonth());
+	createDiv.onclick = function () {
+		alert(this.dataset.month + " " + this.dataset.day + " " + this.dataset.date)
+	};
+	createDiv.innerHTML = tarih.getDate() + "</br>" + getDayName(tarih.getDay());
+	calendar.appendChild(createDiv);
+}
+
+</script>
+
+
+<div class="calendar-title"></div>
+
+<div class="calendar"></div>
+
+
